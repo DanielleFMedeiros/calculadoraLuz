@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Luz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <h1>Calculadora de Luz</h1>
+
+        <div class="input-group">
+            <label for="leituraTotalAtual">Leitura Total Atual:</label>
+            <input type="number" id="leituraTotalAtual">
+        </div>
+        
+        <div class="input-group">
+            <label for="leituraTotalAnterior">Leitura Total Anterior:</label>
+            <input type="number" id="leituraTotalAnterior">
+        </div>
+        
+        <div class="input-group">
+            <label for="leituraAtualPonto1">Leitura Atual do Ponto 1:</label>
+            <input type="number" id="leituraAtualPonto1">
+        </div>
+        
+        <div class="input-group">
+            <label for="leituraAnteriorPonto1">Leitura Anterior do Ponto 1:</label>
+            <input type="number" id="leituraAnteriorPonto1">
+        </div>
+        
+        <div class="input-group">
+            <label for="valorFatura">Valor Total da Fatura (R$):</label>
+            <input type="number" id="valorFatura">
+        </div>
+        
+        <button onclick="calcular()">Calcular</button>
+        
+        <div id="resultado" class="resultado"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
