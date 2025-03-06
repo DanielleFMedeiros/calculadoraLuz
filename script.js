@@ -38,9 +38,9 @@ function calcular() {
     resultadoElement.innerHTML = `
         <p>Total de KWH: ${totalKwh} KWH</p>
         <p>Valor Total Individual: R$${valorTotalIndividual.toFixed(2)}</p>
-        <p>Consumo Individual Vitória/Bruno: ${consumoIndividualPonto1.toFixed(2)} Kwh</p>
-        <p>Valor a ser pago Vitória/Bruno: R$${valorPonto1.toFixed(2)}</p>
-        <p>Consumo Individual Mari/Kerolim: ${totalLeituraIndividualPonto2} Kwh</p>
-        <p>Valor a ser pago Mari/Kerolim: R$${valorPonto2.toFixed(2)}</p>
+        <p>Consumo Individual Bárbara/Bruno: ${consumoIndividualPonto1.toFixed(2)} Kwh</p>
+        <p>Valor a ser pago Bárbara/Bruno: R$${valorPonto1.toFixed(2)}</p>
+        <p>Consumo Individual Mari/Jueci: ${totalLeituraIndividualPonto2} Kwh</p>
+        <p>Valor a ser pago Mari/Jueci: R$${valorPonto2.toFixed(2)}</p>
     `;
 }
