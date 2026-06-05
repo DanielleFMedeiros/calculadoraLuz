@@ -1,13 +1,12 @@
 function calcular() {
     // Obtenha os valores dos campos de entrada
-    const leituraTotalAtual = parseInt(document.getElementById("leituraTotalAtual").value);
-    const leituraTotalAnterior = parseInt(document.getElementById("leituraTotalAnterior").value);
+    const leituraTotal = parseInt(document.getElementById("leituraTotal").value);
     const leituraAtualPonto1 = parseInt(document.getElementById("leituraAtualPonto1").value);
     const leituraAnteriorPonto1 = parseInt(document.getElementById("leituraAnteriorPonto1").value);
     const valorFatura = parseFloat(document.getElementById("valorFatura").value);
 
     // Verificar se os valores fornecidos são válidos
-    if (isNaN(leituraTotalAtual) || isNaN(leituraTotalAnterior) || isNaN(leituraAtualPonto1) || isNaN(leituraAnteriorPonto1) || isNaN(valorFatura)) {
+    if (isNaN(leituraTotal) || isNaN(leituraAtualPonto1) || isNaN(leituraAnteriorPonto1) || isNaN(valorFatura)) {
         alert("Por favor, digite valores numéricos válidos.");
         return;
     }
@@ -16,7 +15,7 @@ function calcular() {
     const leituraAtualPonto2 = Math.max(0, leituraTotalAtual - leituraAnteriorPonto1);
 
     // Calcular o total de KWH
-    const totalKwh = leituraTotalAtual - leituraTotalAnterior;
+    const totalKwh = leituraTotal;
 
     // Calcular o consumo individual do ponto 1
     const consumoIndividualPonto1 = leituraAtualPonto1 - leituraAnteriorPonto1;
