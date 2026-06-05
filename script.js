@@ -12,7 +12,7 @@ function calcular() {
     }
 
     // Calcular a leitura atual do ponto 2
-    const leituraAtualPonto2 = Math.max(0, leituraTotalAtual - leituraAnteriorPonto1);
+    const leituraAtualPonto2 = Math.max(0, leituraTotal - leituraAnteriorPonto1);
 
     // Calcular o total de KWH
     const totalKwh = leituraTotal;
