@@ -59,3 +59,15 @@ button:hover {
     font-weight: bold;
     color: #333;
 }
+
+.titular-container {
+    margin-bottom: 15px;
+}
+
+.titular-container button {
+    margin: 0 5px;
+}
+
+.titular-container .ativo {
+    background-color: #2196f3;
+}
