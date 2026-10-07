@@ -32,7 +32,7 @@ function calcular() {
     const valorPonto1 = consumoIndividualPonto1 * valorTotalIndividual;
     const valorPonto2 = totalLeituraIndividualPonto2 * valorTotalIndividual;
 
-    const segundoTitular = titular === "Dani" ? "Mari" : "Bárbara";
+    const segundoTitular = titular === "Dani" ? "Mari" : "Bruno";
 
     const resultadoElement = document.getElementById("resultado");
 
