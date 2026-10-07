@@ -4,12 +4,12 @@ function selecionarTitular(nome) {
     titular = nome;
 
     document.getElementById("btnDani").classList.remove("ativo");
-    document.getElementById("btnBruno").classList.remove("ativo");
+    document.getElementById("btnKitnet").classList.remove("ativo");
 
     if (nome === "Dani") {
         document.getElementById("btnDani").classList.add("ativo");
     } else {
-        document.getElementById("btnBruno").classList.add("ativo");
+        document.getElementById("btnKitnet").classList.add("ativo");
     }
 }
 
