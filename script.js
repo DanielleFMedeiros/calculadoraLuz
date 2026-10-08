@@ -14,12 +14,29 @@ function selecionarTitular(nome) {
 }
 
 function calcular() {
-    const leituraTotal = parseFloat(document.getElementById("leituraTotal").value);
-    const leituraAtualPonto1 = parseFloat(document.getElementById("leituraAtualPonto1").value);
-    const leituraAnteriorPonto1 = parseFloat(document.getElementById("leituraAnteriorPonto1").value);
-    const valorFatura = parseFloat(document.getElementById("valorFatura").value);
-    const valorCosip = parseFloat(document.getElementById("valorCosip").value);
 
+    const leituraTotal = parseFloat(
+        document.getElementById("leituraTotal").value
+    );
+
+    const leituraAtualPonto1 = parseFloat(
+        document.getElementById("leituraAtualPonto1").value
+    );
+
+    const leituraAnteriorPonto1 = parseFloat(
+        document.getElementById("leituraAnteriorPonto1").value
+    );
+
+    const valorFatura = parseFloat(
+        document.getElementById("valorFatura").value
+    );
+
+    const valorCosip = parseFloat(
+        document.getElementById("valorCosip").value
+    );
+
+
+    // Verifica se todos os campos foram preenchidos
     if (
         isNaN(leituraTotal) ||
         isNaN(leituraAtualPonto1) ||
@@ -31,89 +48,215 @@ function calcular() {
         return;
     }
 
-    const consumoPonto1 = leituraAtualPonto1 - leituraAnteriorPonto1;
 
-    if (consumoPonto1 < 0) {
+    // ==========================================
+    // CONSUMO DO MEDIDOR INFORMADO
+    // ==========================================
+
+    const consumoMedidor =
+        leituraAtualPonto1 - leituraAnteriorPonto1;
+
+
+    if (consumoMedidor < 0) {
         alert("A leitura atual não pode ser menor que a leitura anterior.");
         return;
     }
 
-    const consumoPonto2 = leituraTotal - consumoPonto1;
 
-    if (consumoPonto2 < 0) {
-        alert("O consumo do primeiro ponto não pode ser maior que o consumo total.");
+    // ==========================================
+    // CONSUMO DO OUTRO LADO
+    // ==========================================
+
+    const consumoOutro =
+        leituraTotal - consumoMedidor;
+
+
+    if (consumoOutro < 0) {
+        alert(
+            "O consumo do medidor não pode ser maior que o consumo total da fatura."
+        );
         return;
     }
 
-    const valorConsumo = valorFatura - valorCosip;
+
+    // ==========================================
+    // VALOR DA ENERGIA SEM COSIP
+    // ==========================================
+
+    const valorConsumo =
+        valorFatura - valorCosip;
+
 
     if (valorConsumo < 0) {
-        alert("A COSIP não pode ser maior que o valor da fatura.");
+        alert("A COSIP não pode ser maior que o valor total da fatura.");
         return;
     }
 
-    const valorPorKwh = valorConsumo / leituraTotal;
 
-    const valorPonto1 = consumoPonto1 * valorPorKwh;
-    const valorPonto2 = consumoPonto2 * valorPorKwh;
+    // ==========================================
+    // VALOR POR kWh
+    // ==========================================
 
-    const cosipCada = valorCosip / 2;
+    const valorPorKwh =
+        valorConsumo / leituraTotal;
 
-    const totalPonto1 = valorPonto1 + cosipCada;
-    const totalPonto2 = valorPonto2 + cosipCada;
 
-    let nomePonto1;
-    let nomePonto2;
+    // ==========================================
+    // VALORES DE CADA CONSUMO
+    // ==========================================
+
+    const valorMedidor =
+        consumoMedidor * valorPorKwh;
+
+    const valorOutro =
+        consumoOutro * valorPorKwh;
+
+
+    // ==========================================
+    // COSIP DIVIDIDA 50% / 50%
+    // ==========================================
+
+    const cosipCada =
+        valorCosip / 2;
+
+
+    // ==========================================
+    // NOMES
+    // ==========================================
+
+    let nomeMedidor;
+    let nomeOutro;
 
     if (titular === "Dani") {
-        nomePonto1 = "Mari";
-        nomePonto2 = "Dani";
+
+        // Medidor informado = Dani
+        nomeMedidor = "Dani";
+
+        // Restante = Mari
+        nomeOutro = "Mari";
+
     } else {
-        nomePonto1 = "Kitnet";
-        nomePonto2 = "Bruno";
+
+        // Medidor informado = Kitnet
+        nomeMedidor = "Kitnet";
+
+        // Restante = Bruno
+        nomeOutro = "Bruno";
     }
 
+
+    // ==========================================
+    // TOTAIS
+    // ==========================================
+
+    const totalMedidor =
+        valorMedidor + cosipCada;
+
+    const totalOutro =
+        valorOutro + cosipCada;
+
+
+    // ==========================================
+    // RESULTADO
+    // ==========================================
+
     document.getElementById("resultado").innerHTML = `
+
         <h2>Resultado</h2>
 
-        <p><strong>Consumo total:</strong> ${leituraTotal.toFixed(0)} kWh</p>
+        <p>
+            <strong>Consumo total:</strong>
+            ${leituraTotal.toFixed(0)} kWh
+        </p>
 
-        <p><strong>Consumo da ${nomePonto1}:</strong> ${consumoPonto1.toFixed(0)} kWh</p>
+        <p>
+            <strong>Consumo da ${nomeMedidor}:</strong>
+            ${consumoMedidor.toFixed(0)} kWh
+        </p>
 
-        <p><strong>Consumo do ${nomePonto2}:</strong> ${consumoPonto2.toFixed(0)} kWh</p>
+        <p>
+            <strong>Consumo do ${nomeOutro}:</strong>
+            ${consumoOutro.toFixed(0)} kWh
+        </p>
 
-        <p><strong>Valor da fatura:</strong> R$ ${valorFatura.toFixed(2)}</p>
+        <p>
+            <strong>Valor da fatura:</strong>
+            R$ ${valorFatura.toFixed(2)}
+        </p>
 
-        <p><strong>Valor da COSIP:</strong> R$ ${valorCosip.toFixed(2)}</p>
+        <p>
+            <strong>Valor da COSIP:</strong>
+            R$ ${valorCosip.toFixed(2)}
+        </p>
 
-        <p><strong>Valor referente ao consumo:</strong> R$ ${valorConsumo.toFixed(2)}</p>
-
-        <hr>
-
-        <h3>🏡 ${nomePonto1}</h3>
-
-        <p><strong>Consumo:</strong> ${consumoPonto1.toFixed(0)} kWh</p>
-
-        <p>Valor do consumo: R$ ${valorPonto1.toFixed(2)}</p>
-
-        <p>COSIP: R$ ${cosipCada.toFixed(2)}</p>
-
-        <p><strong>💰 Total ${nomePonto1}: R$ ${totalPonto1.toFixed(2)}</strong></p>
-
-        <hr>
-
-        <h3>🏠 ${nomePonto2}</h3>
-
-        <p><strong>Consumo:</strong> ${consumoPonto2.toFixed(0)} kWh</p>
-
-        <p>Valor do consumo: R$ ${valorPonto2.toFixed(2)}</p>
-
-        <p>COSIP: R$ ${cosipCada.toFixed(2)}</p>
-
-        <p><strong>💰 Total ${nomePonto2}: R$ ${totalPonto2.toFixed(2)}</strong></p>
+        <p>
+            <strong>Valor referente ao consumo:</strong>
+            R$ ${valorConsumo.toFixed(2)}
+        </p>
 
         <hr>
 
-        <p><strong>Conferência: R$ ${(totalPonto1 + totalPonto2).toFixed(2)}</strong></p>
+        <h3>
+            🏡 ${nomeOutro}
+        </h3>
+
+        <p>
+            <strong>Consumo:</strong>
+            ${consumoOutro.toFixed(0)} kWh
+        </p>
+
+        <p>
+            Valor do consumo:
+            R$ ${valorOutro.toFixed(2)}
+        </p>
+
+        <p>
+            COSIP:
+            R$ ${cosipCada.toFixed(2)}
+        </p>
+
+        <p>
+            <strong>
+                💰 Total ${nomeOutro}:
+                R$ ${totalOutro.toFixed(2)}
+            </strong>
+        </p>
+
+        <hr>
+
+        <h3>
+            🏠 ${nomeMedidor}
+        </h3>
+
+        <p>
+            <strong>Consumo:</strong>
+            ${consumoMedidor.toFixed(0)} kWh
+        </p>
+
+        <p>
+            Valor do consumo:
+            R$ ${valorMedidor.toFixed(2)}
+        </p>
+
+        <p>
+            COSIP:
+            R$ ${cosipCada.toFixed(2)}
+        </p>
+
+        <p>
+            <strong>
+                💰 Total ${nomeMedidor}:
+                R$ ${totalMedidor.toFixed(2)}
+            </strong>
+        </p>
+
+        <hr>
+
+        <p>
+            <strong>
+                Conferência:
+                R$ ${(totalMedidor + totalOutro).toFixed(2)}
+            </strong>
+        </p>
     `;
 }
