@@ -1,64 +1,111 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Luz</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#176b45">
+  <title>Calculadora de Luz</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
-    <div class="calculator-container">
-
+  <main class="page">
+    <header class="hero">
+      <div class="hero-icon" aria-hidden="true">⚡</div>
+      <div>
+        <p class="eyebrow">CONTROLE DE CONSUMO</p>
         <h1>Calculadora de Luz</h1>
+        <p class="subtitle">Divida a fatura, registre as leituras e consulte seu histórico.</p>
+      </div>
+    </header>
 
-        <div class="titular-container">
-            <button type="button" id="btnDani" class="ativo" onclick="selecionarTitular('Dani')">
-                Dani
-            </button>
+    <section class="panel" aria-labelledby="form-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">NOVA CONTA</p>
+          <h2 id="form-title">Dados da fatura</h2>
+        </div>
+        <span class="pill">⚡ Cálculo proporcional</span>
+      </div>
 
-            <button type="button" id="btnKitnet" onclick="selecionarTitular('Kitnet')">
-                Kitnet
-            </button>
+      <p class="help">Selecione quem corresponde ao medidor informado. O consumo restante será atribuído à outra pessoa/imóvel.</p>
+
+      <div class="titular-container" role="group" aria-label="Selecionar medidor">
+        <button type="button" id="btnDani" class="selector active" aria-pressed="true" onclick="selecionarTitular('Dani')">Dani / Mari</button>
+        <button type="button" id="btnKitnet" class="selector" aria-pressed="false" onclick="selecionarTitular('Kitnet')">Kitnet / Apartamento</button>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="dataLeituraAnterior">Data da leitura anterior</label>
+          <input type="date" id="dataLeituraAnterior" autocomplete="off">
         </div>
 
-        <div class="input-group">
-            <label for="leituraTotal">Consumo Total da Fatura (kWh):</label>
-            <input type="number" id="leituraTotal" step="0.01">
+        <div class="field">
+          <label for="leituraAnteriorPonto1">Leitura anterior (kWh)</label>
+          <input type="number" id="leituraAnteriorPonto1" min="0" step="any" placeholder="Ex.: 1250">
         </div>
 
-        <div class="input-group">
-            <label for="leituraAtualPonto1">Leitura Atual do Medidor:</label>
-            <input type="number" id="leituraAtualPonto1" step="0.01">
+        <div class="field">
+          <label for="dataLeituraAtual">Data da leitura atual</label>
+          <input type="date" id="dataLeituraAtual" autocomplete="off">
         </div>
 
-        <div class="input-group">
-            <label for="leituraAnteriorPonto1">Leitura Anterior do Medidor:</label>
-            <input type="number" id="leituraAnteriorPonto1" step="0.01">
+        <div class="field">
+          <label for="leituraAtualPonto1">Leitura atual (kWh)</label>
+          <input type="number" id="leituraAtualPonto1" min="0" step="any" placeholder="Ex.: 1367">
         </div>
 
-        <div class="input-group">
-            <label for="valorFatura">Valor Total da Fatura (R$):</label>
-            <input type="number" id="valorFatura" step="0.01">
+        <div class="field">
+          <label for="leituraTotal">Consumo total da fatura (kWh)</label>
+          <input type="number" id="leituraTotal" min="0.01" step="any" placeholder="Ex.: 232">
         </div>
 
-        <div class="input-group">
-            <label for="valorCosip">COSIP (R$):</label>
-            <input type="number" id="valorCosip" value="15.40" step="0.01">
-
-            <small>
-                A COSIP será dividida igualmente entre os dois.
-            </small>
+        <div class="field">
+          <label for="valorFatura">Valor total da fatura (R$)</label>
+          <input type="number" id="valorFatura" min="0" step="0.01" placeholder="Ex.: 239.13">
         </div>
 
-        <button onclick="calcular()">Calcular</button>
+        <div class="field">
+          <label for="valorCosip">Valor da COSIP (R$)</label>
+          <input type="number" id="valorCosip" min="0" step="0.01" placeholder="Ex.: 27.01">
+        </div>
+      </div>
 
-        <div id="resultado" class="resultado"></div>
+      <p class="note">A COSIP é dividida igualmente. Se houver um centavo ímpar, o centavo restante fica com a pessoa/imóvel que não corresponde ao medidor informado. As datas identificam o período e não alteram a divisão da conta.</p>
 
-    </div>
+      <div class="actions">
+        <button type="button" class="primary" id="calcularBtn" onclick="calcular()">Calcular divisão</button>
+        <button type="button" class="secondary" onclick="limparFormulario()">Limpar campos</button>
+      </div>
 
-    <script src="script.js"></script>
+      <p id="formStatus" class="status" aria-live="polite"></p>
+      <div id="resultado" class="resultado" aria-live="polite"></div>
+    </section>
 
+    <section class="panel" aria-labelledby="history-title">
+      <div class="section-heading history-heading">
+        <div>
+          <p class="eyebrow">REGISTROS SALVOS</p>
+          <h2 id="history-title">Histórico de contas</h2>
+          <p class="help">Os registros ficam salvos neste navegador.</p>
+        </div>
+        <span id="historyCount" class="count-pill">0 registros</span>
+      </div>
+
+      <div class="backup-actions">
+        <button type="button" class="secondary" onclick="exportarHistorico()">⬇ Exportar backup</button>
+        <button type="button" class="secondary" onclick="document.getElementById('arquivoBackup').click()">⬆ Importar backup</button>
+        <input type="file" id="arquivoBackup" accept="application/json,.json" hidden onchange="importarHistorico(event)">
+      </div>
+
+      <p class="note">Dica: exporte um backup de vez em quando. Limpar os dados do navegador pode apagar o histórico. O arquivo de backup permite recuperá-lo.</p>
+
+      <div id="historico" class="history-list"></div>
+    </section>
+
+    <footer>Feito para facilitar a conferência da conta de luz 💚</footer>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
