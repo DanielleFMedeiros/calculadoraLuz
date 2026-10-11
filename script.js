@@ -140,8 +140,8 @@ function calcular() {
         // Medidor informado = Kitnet
         nomeMedidor = "Kitnet";
 
-        // Restante = Bruno
-        nomeOutro = "Bruno";
+        // Restante = Apartamento
+        nomeOutro = "Apartamento";
     }
 
 
